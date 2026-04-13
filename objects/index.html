@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objects</title>
+</head>
+
+<body>
+    <h1>Learning about Objects</h1>
+
+    <div id="directory">
+    </div>
+    
+    <script>
+        
+    var directory = [
+            {
+                name: "sarah",
+                role: "student"
+            },
+            {
+                name: "joel",
+                role: "faculty"
+            },
+            {
+                name: "alyssa",
+                role: "student"
+            }
+        ];
+
+        function renderDirectory() {
+            var directorySection = document.getElementById('directory');
+            directorySection.innerHTML = '<h2>Directory</h2>';
+
+            directory.forEach(function(person, index) {
+                var entry = document.createElement('div');
+                entry.className = 'directory-entry';
+
+                var text = document.createElement('span');
+                text.textContent = person.name + ' is a ' + person.role;
+                entry.appendChild(text);
+
+                var editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.addEventListener('click', function() {
+                    showEditForm(index, entry);
+                });
+                entry.appendChild(editButton);
+
+                directorySection.appendChild(entry);
+            });
+        }
+
+        function showEditForm(index, container) {
+            container.innerHTML = '';
+
+            var nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.value = directory[index].name;
+            nameInput.placeholder = 'Name';
+            container.appendChild(nameInput);
+
+            var roleInput = document.createElement('input');
+            roleInput.type = 'text';
+            roleInput.value = directory[index].role;
+            roleInput.placeholder = 'Role';
+            container.appendChild(roleInput);
+
+            var saveButton = document.createElement('button');
+            saveButton.textContent = 'Save';
+            saveButton.addEventListener('click', function() {
+                directory[index].name = nameInput.value.trim() || directory[index].name;
+                directory[index].role = roleInput.value.trim() || directory[index].role;
+                renderDirectory();
+            });
+            container.appendChild(saveButton);
+
+            var cancelButton = document.createElement('button');
+            cancelButton.textContent = 'Cancel';
+            cancelButton.addEventListener('click', function() {
+                renderDirectory();
+            });
+            container.appendChild(cancelButton);
+        }
+
+        // function addPerson() {
+        //     var nameValue = document.getElementById('new-name').value.trim();
+        //     var roleValue = document.getElementById('new-role').value.trim();
+
+        //     if (nameValue === '' || roleValue === '') {
+        //         alert('Please enter both a name and a role.');
+        //         return;
+        //     }
+
+        //     directory.push({
+        //         name: nameValue,
+        //         role: roleValue
+        //     });
+
+        //     document.getElementById('new-name').value = '';
+        //     document.getElementById('new-role').value = '';
+        //     renderDirectory();
+        // }
+
+        // document.getElementById('add-person').addEventListener('click', addPerson);
+
+        // renderDirectory();
+
+    </script>
+</body>
+</html>

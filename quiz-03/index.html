@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Playlist App</title>
+</head>
+<body>
+  <h1>My Playlist</h1>
+  <input type="text" id="songInput" placeholder="Add a song" >
+
+  <button id="addButton">Add</button>
+
+  <p>Total songs: <span id="totalCount">0</span></p>
+
+  <ul id="songList"></ul>
+
+<script>
+    let playlist = [];
+
+
+    function renderPlaylist() {
+      const songList = document.getElementById("songList");
+      const totalCount = document.getElementById("totalCount");
+
+      songList.innerHTML = "";
+
+        for (let i = 0; i < playlist.length; i++) {
+        const li = document.createElement("li");
+        li.textContent = (i + 1) + ". " + playlist[i];
+        songList.appendChild(li);
+      }
+
+      totalCount.textContent = playlist.length;
+    }
+
+    function addSong() {
+      const songInput = document.getElementById("songInput");
+      const songName = songInput.value.trim(); 
+
+      if (songName === "") {
+        alert("Please enter a song!"); 
+        return;                     
+      }
+
+      playlist.push(songName);        
+      renderPlaylist();                
+      songInput.value = "";                       
+    }
+
+    
+    const addButton = document.getElementById("addButton");
+    addButton.addEventListener("click", addSong);
+
+    renderPlaylist();
+  </script>
+</body>
+</html>
