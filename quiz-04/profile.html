@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Breed Profile</title>
+</head>
+<body>
+
+  <h1>Breed Profile</h1>
+  <div id="breedDetails"></div>
+
+  <script>
+    const url = "https://dogapi.dog/api/v2/breeds";
+
+    const params = new URLSearchParams(window.location.search);
+    const breedId = params.get("id");
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const breeds = data.data;
+
+   
+        const breed = breeds.find(b => b.id === breedId);
+
+        const container = document.getElementById("breedDetails");
+
+        if (breed) {
+          container.innerHTML = `
+            <h2>${breed.attributes.name}</h2>
+            <p><strong>Description:</strong> ${breed.attributes.description}</p>
+            <p><strong>Life Span:</strong> ${breed.attributes.life?.min || "N/A"} - ${breed.attributes.life?.max || "N/A"} years</p>
+            <p><strong>Male Weight:</strong> ${breed.attributes.male_weight?.min || "N/A"} - ${breed.attributes.male_weight?.max || "N/A"} lbs</p>
+            <p><strong>Female Weight:</strong> ${breed.attributes.female_weight?.min || "N/A"} - ${breed.attributes.female_weight?.max || "N/A"} lbs</p>
+          `;
+        } else {
+          container.textContent = "Breed not found.";
+        }
+      })
+  </script>
+
+</body>
+</html>
