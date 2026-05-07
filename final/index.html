@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Short n' Sweet Tracker</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <header> Sabrina Carpenter Song Tracker</header>
+
+    <div class="container">
+        <div class="form">
+            <input id="name" placeholder="Your name"/>
+
+            <select id="song"></select>
+
+            <select id="stars">
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+
+            <button onclick="addEntry()">Add</button>
+        </div>
+
+        <div class="controls">
+            <input id="search" placeholder="Search..." oninput="searchEntries()" />
+            <button onclick="sortEntries()">Sort A-Z</button>
+        </div>
+
+        <div id="list" class="grid"></div>
+    </div>
+
+    <script>
+
+        let entries = JSON.parse(localStorage.getItem("entries")) || [];
+
+        
+        function showEntries(list = entries) {
+            let html = "";
+
+            list.forEach(e => {
+                html += `
+                    <div class="card">
+                        <h3>${e.name}</h3>
+                        <p>🎵 ${e.song}</p>
+                        <p class="stars">${"⭐".repeat(e.stars)}</p>
+                        <small>${e.date}</small>
+
+                        <div class="actions">
+                            <button onclick="editEntry(${e.id})">Edit</button>
+                            <button class="delete" onclick="deleteEntry(${e.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById("list").innerHTML = html;
+        }
+
+        
+        function save() {
+            localStorage.setItem("entries", JSON.stringify(entries));
+        }
+
+       
+        function addEntry() {
+            let name = document.getElementById("name").value;
+            let song = document.getElementById("song").value;
+            let stars = document.getElementById("stars").value;
+
+            if (!name) return;
+
+            entries.push({
+                id: Date.now(),
+                name,
+                song,
+                stars: Number(stars),
+                date: new Date().toLocaleDateString()
+            });
+
+            save();
+            showEntries();
+
+            document.getElementById("name").value = "";
+        }
+
+        
+        function deleteEntry(id) {
+            entries = entries.filter(e => e.id !== id);
+            save();
+            showEntries();
+        }
+
+        
+        function editEntry(id) {
+            let e = entries.find(e => e.id === id);
+
+            if (newStars !== null) {
+                newStars = Number(newStars);
+                if (newStars >= 1 && newStars <= 5) {
+                    e.stars = newStars;
+                    save();
+                    showEntries();
+                }
+            }
+        }
+
+        
+        function sortEntries() {
+            entries.sort((a, b) => a.name.localeCompare(b.name));
+            showEntries();
+        }
+
+       
+        function searchEntries() {
+            let q = document.getElementById("search").value.toLowerCase();
+
+            let filtered = entries.filter(e =>
+                e.name.toLowerCase().includes(q) ||
+                e.song.toLowerCase().includes(q)
+            );
+
+            showEntries(filtered);
+        }
+
+        function loadSongs() {
+            fetch("https://itunes.apple.com/search?term=sabrina+carpenter&entity=song&limit=100")
+                .then(res => res.json())
+                .then(data => {
+                    let dropdown = document.getElementById("song");
+
+                    data.results.forEach(song => {
+                        dropdown.innerHTML += `<option>${song.trackName}</option>`;
+                    });
+                })
+                .catch(err => console.error("Failed to load songs:", err));
+        }
+
+        
+        document.getElementById("name").addEventListener("keydown", e => {
+            if (e.key === "Enter") addEntry();
+        });
+
+       
+        showEntries();
+        loadSongs();
+    </script>
+</body>
+
+</html>

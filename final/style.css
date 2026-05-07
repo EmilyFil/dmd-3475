@@ -1,0 +1,136 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body {
+  font-family: Arial, sans-serif;
+  background: #ffdde9;
+  color: #333;
+}
+
+
+header {
+  text-align: center;
+  padding: 20px;
+  background: #ff87bf;
+  color: rgb(255, 255, 255);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+
+.form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+input, select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  flex: 1;
+  min-width: 120px;
+}
+
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #ff6ca9;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #ff6ca9;
+}
+
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.controls input {
+  flex: 1;
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+
+.card h3 {
+  margin-bottom: 5px;
+}
+
+.card p {
+  margin: 5px 0;
+}
+
+.card small {
+  color: gray;
+}
+
+
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+
+.dog {
+  background: #d1f7d6;
+}
+
+.cat {
+  background: #ffe1e1;
+}
+
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+.delete {
+  background: #ab0101;
+}
+
+.delete:hover {
+  background: #6a0101;
+}
